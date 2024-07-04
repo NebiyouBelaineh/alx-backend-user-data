@@ -4,9 +4,15 @@ import re
 from typing import List
 
 
-def filter_datum(flds: List[str], rdcn: str, msg: str, sep: str) -> str:
-    """Returns the log message obfuscated"""
-    for field in flds:
-        message = re.sub(rf'({re.escape(field)}=)[^{re.escape(sep)}]*',
-                         r'\1' + rdcn, msg)
+def filter_datum(fields: List[str],
+                 redaction: str,
+                 message: str,
+                 separator: str) -> str:
+    """
+    Returns the log message obfuscated"""
+    for field in fields:
+        message = re.sub(
+            rf'({re.escape(field)}=)[^{re.escape(separator)}]*',
+            r'\1' + redaction,
+            message)
     return message
