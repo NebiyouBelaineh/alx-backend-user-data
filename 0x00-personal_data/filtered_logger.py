@@ -3,7 +3,10 @@
 import re
 from typing import List
 
+
 def filter_datum(flds: List[str], rdcn: str, msg: str, sep: str) -> str:
-    """Returns the log messafe obfuscated"""
-    pattern = '|'.join([f"{field}=[^{sep}]+" for field in flds])
-    return re.sub(pattern, lambda m: f"{m.group(0).split('=')[0]}={rdcn}", msg)
+    """Returns the log message obfuscated"""
+    for field in flds:
+        message = re.sub(rf'({re.escape(field)}=)[^{re.escape(sep)}]*',
+                         r'\1' + rdcn, msg)
+    return message
