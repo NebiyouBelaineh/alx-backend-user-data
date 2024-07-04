@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """Module containing filtered_datum function"""
-import logging
 import re
-from typing import Union, List
 
 
 def filter_datum(flds: List[str], rdcn: str, msg: str, sep: str) -> str:
