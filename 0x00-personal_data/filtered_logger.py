@@ -61,9 +61,9 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
     db = mysql.connector.connect(
         host=host,
-        database=name,
+        port=3306,
         user=user,
         password=pwd,
-        port=3306,
+        database=name,
     )
     return db
