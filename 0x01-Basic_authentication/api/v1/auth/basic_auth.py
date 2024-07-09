@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Basic Auth Class"""
 from api.v1.auth.auth import Auth
+from typing import Tuple
 import base64
 
 
@@ -36,3 +37,18 @@ class BasicAuth(Auth):
             return auth_header.decode('utf-8')
         except Exception:
             return None
+
+    def extract_user_credentials(self,
+                                 decoded_base64_authorization_header: str)\
+            -> Tuple[str, str]:
+        """Returns the user email and password from the
+        Base64 decoded value."""
+        if decoded_base64_authorization_header is None:
+            return (None, None)
+        if type(decoded_base64_authorization_header) is not str:
+            return (None, None)
+        if ":" not in decoded_base64_authorization_header:
+            return (None, None)
+
+        email, pwd = decoded_base64_authorization_header.split(':', maxsplit=1)
+        return (email, pwd)
