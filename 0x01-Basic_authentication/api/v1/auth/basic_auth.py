@@ -61,15 +61,16 @@ class BasicAuth(Auth):
             return None
         if user_pwd is None or type(user_pwd) is not str:
             return None
-        if User.count() == 0:
+        try:
+            attributes = {'email': user_email}
+            user = User.search(attributes)
+            if len(user) == 0:
+                return None
+            if user[0].is_valid_password(user_pwd):
+                return user[0]
             return None
-        attributes = {'email': user_email}
-        user = User.search(attributes)
-        if len(user) == 0:
+        except Exception:
             return None
-        if user[0].is_valid_password(user_pwd):
-            return user[0]
-        return None
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Gets the user instance after authentication."""
