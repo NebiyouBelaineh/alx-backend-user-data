@@ -163,3 +163,4 @@ cython_debug/
 notes.md
 example*
 .db_User.json
+test_task_10.py
