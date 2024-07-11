@@ -37,7 +37,7 @@ class Auth:
         return None
 
     def session_cookie(self, request=None) -> str:
-        """Returns a cookie value from a request based on
+        """Returns a cookie value (session_id) from a request based on
         the Environment variable SESSION_NAME"""
         if request is None:
             return None

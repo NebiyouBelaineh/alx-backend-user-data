@@ -14,9 +14,9 @@ def login() -> str:
     Otherwise, returns a corosponding error message inside a JSON"""
     email, pwd = request.form.get('email'), request.form.get('password')
 
-    if email is None or email is '':
+    if email is None or email == '':
         return jsonify({"error": "email missing"}), 400
-    if pwd is None or pwd is '':
+    if pwd is None or pwd == '':
         return jsonify({"error": "password missing"}), 400
 
     try:
@@ -35,3 +35,15 @@ def login() -> str:
 
     response.set_cookie(cookie_name, session_id)
     return response
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'], strict_slashes=False)
+def logout() -> None:
+    """logouts the user"""
+    from api.v1.app import auth
+    print(type(auth))
+    if auth.destory_session(request):
+        return jsonify({}), 200
+    else:
+        abort(404)
