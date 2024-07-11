@@ -13,7 +13,7 @@ def login() -> str:
     Otherwise, returns a corosponding error message inside a JSON"""
     email, pwd = request.form.get('email'), request.form.get('password')
     if email is None or email is '':
-        return json.dumps({"error": "email missing"}), 400
+        return jsonify({"error": "email missing"}), 400
     if pwd is None or pwd is '':
         return jsonify({"error": "password missing"}), 400
     try:
