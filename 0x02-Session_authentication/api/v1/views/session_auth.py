@@ -25,7 +25,6 @@ def login() -> str:
     user = user_list[0]
     if not user.is_valid_password(pwd):
         return jsonify({"error": "wrong password"}), 401
-    from api.v1.auth.session_auth import SessionAuth
-    auth = SessionAuth()
+    from api.v1.app import auth
     session_id = auth.create_session(user.id)
     return user.to_json({"user_id": user.id, "session_id": session_id})
