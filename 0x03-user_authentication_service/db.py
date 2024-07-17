@@ -31,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email, hashed_password):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Saves a new user to the DB and returns the User Object"""
         new_user = User(email=email, hashed_password=hashed_password)
         session = self._session
@@ -40,7 +40,7 @@ class DB:
 
         return new_user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs: Dict[str, Union[str, int]]) -> User:
         """Returns the first row found in the users
         table as filtered by the method’s input arguments """
         session = self._session
@@ -54,7 +54,8 @@ class DB:
             raise NoResultFound()
         return result
 
-    def update_user(self, user_id, **kwargs):
+    def update_user(self, user_id: int, **kwargs: Dict[str, Union[str, int]])\
+            -> None:
         """Updates a user instance attributes based on its ID"""
         session = self._session
 
