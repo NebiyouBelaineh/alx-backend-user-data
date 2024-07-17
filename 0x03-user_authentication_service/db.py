@@ -53,3 +53,16 @@ class DB:
         if result is None:
             raise NoResultFound()
         return result
+
+    def update_user(self, user_id, **kwargs):
+        """Updates a user instance attributes based on its ID"""
+        session = self._session
+
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(User, key):
+                raise ValueError()
+            setattr(user, key, value)
+        session = self._session
+        session.add(user)
+        session.commit()
