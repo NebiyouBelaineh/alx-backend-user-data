@@ -54,8 +54,7 @@ class DB:
             raise NoResultFound()
         return result
 
-    def update_user(self, user_id: int, **kwargs: Dict[str, Union[str, int]])\
-            -> None:
+    def update_user(self, user_id: int, **kwargs: Union[str, int]) -> None:
         """Updates a user instance attributes based on its ID"""
         session = self._session
 
