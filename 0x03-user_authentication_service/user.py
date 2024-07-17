@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
 """Module containing User model, an SQLALCHEMY model"""
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
 
 
-class User(Base):
+class User:
     """User Model"""
     __tablename__ = "users"
 
