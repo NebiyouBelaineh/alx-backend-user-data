@@ -31,9 +31,9 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
+    def add_user(self: User, email: str, hashed_password: str) -> User:
         """Saves a new user to the DB and returns the User Object"""
-        new_user = User(email, hashed_password)
+        new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
         self._session.commit()
 
@@ -42,6 +42,9 @@ class DB:
     def find_user_by(self, **kwargs: Dict) -> User:
         """Returns the first row found in the users
         table as filtered by the method’s input arguments """
+        for key, value in kwargs.items():
+            if value is None or not hasattr(User, key):
+                raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs)\
             .first()
         if user:
