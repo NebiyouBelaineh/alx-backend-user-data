@@ -4,7 +4,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.exc import InvalidRequestError, NoResultFound
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
 from typing import Dict, Union
 
 from user import Base, User
@@ -13,7 +14,6 @@ from user import Base, User
 class DB:
     """DB class
     """
-
     def __init__(self) -> None:
         """Initialize a new DB instance
         """
@@ -31,7 +31,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self: User, email: str, hashed_password: str) -> User:
+    def add_user(self, email, hashed_password):
         """Saves a new user to the DB and returns the User Object"""
         new_user = User(email=email, hashed_password=hashed_password)
         self._session.add(new_user)
