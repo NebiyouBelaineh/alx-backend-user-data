@@ -44,16 +44,12 @@ class DB:
         """Returns the first row found in the users
         table as filtered by the method’s input arguments """
         session = self._session
-        fields, values = [], []
+
         for key, value in kwargs.items():
-            if hasattr(User, key):
-                fields.append(getattr(User, key))
-                values.append(value)
-            else:
+            if not hasattr(User, key):
                 raise InvalidRequestError()
-        result = session.query(User).filter(
-            tuple_(*fields).in_([tuple(values)])
-        ).first()
+
+        result = session.query(User).filter_by(**kwargs).first()
         if result is None:
             raise NoResultFound()
         return result

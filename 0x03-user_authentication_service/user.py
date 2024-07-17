@@ -2,7 +2,7 @@
 """Module containing User model, an SQLALCHEMY model"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
-from typing import Optional
+
 
 Base = declarative_base()
 
