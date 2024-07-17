@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError, NoResultFound
+from typing import Dict, Union
 
 from user import Base, User
 
@@ -38,12 +39,11 @@ class DB:
 
         return new_user
 
-    def find_user_by(self, **kwargs) -> User:
+    def find_user_by(self, **kwargs: Dict) -> User:
         """Returns the first row found in the users
         table as filtered by the method’s input arguments """
-        for key, value in kwargs.items():
-            user = self._session.query(User).filter(User.email == value)\
-                .first() if key == "email" else None
-            if user:
-                return user
+        user = self._session.query(User).filter_by(**kwargs)\
+            .first()
+        if user:
+            return user
         raise NoResultFound
