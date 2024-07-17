@@ -4,10 +4,10 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
 
-Base = declarative_base()
+Base = declarative_base()  # type: ignore
 
 
-class User(Base):
+class User(Base):  # type: ignore
     """User Model"""
     __tablename__ = "users"
 

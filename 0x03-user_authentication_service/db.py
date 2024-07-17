@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Module containing DB model"""
-from sqlalchemy import create_engine, tuple_
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
-from typing import Dict, Union
+from typing import Dict, Union, Optional
 
-from user import Base, User
+from user import Base, User  # type: ignore
 
 
 class DB:
@@ -18,9 +18,9 @@ class DB:
         """Initialize a new DB instance
         """
         self._engine = create_engine("sqlite:///a.db", echo=False)
-        Base.metadata.drop_all(self._engine)
-        Base.metadata.create_all(self._engine)
-        self.__session = None
+        Base.metadata.drop_all(self._engine)  # type: ignore
+        Base.metadata.create_all(self._engine)  # type: ignore
+        self.__session: Optional[Session] = None
 
     @property
     def _session(self) -> Session:
@@ -40,7 +40,7 @@ class DB:
 
         return new_user
 
-    def find_user_by(self, **kwargs: Dict[str, Union[str, int]]) -> User:
+    def find_user_by(self, **kwargs: Union[str, int]) -> User:
         """Returns the first row found in the users
         table as filtered by the method’s input arguments """
         session = self._session
