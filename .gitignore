@@ -165,3 +165,4 @@ example*
 .db_User.json
 test_task_10.py
 .db_UserSession.json
+*.db 
