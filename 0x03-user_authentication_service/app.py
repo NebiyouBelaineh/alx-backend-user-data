@@ -53,5 +53,16 @@ def logout() -> Response:
     return redirect("/")  # type: ignore
 
 
+@app.route("/profile", methods=["GET"], strict_slashes=False)
+def profile() -> Response:
+    """Gets the user email from the session_id and returns a
+    JSON payload with the user email, abort(403) otherwise"""
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)  # type: ignore
+    if user is None:
+        abort(403)
+    return jsonify({"email": user.email})
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=True)  # type: ignore
