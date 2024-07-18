@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Flask app"""
-from flask import Flask, jsonify, Response, request, abort
+from flask import Flask, jsonify, Response, request, abort, redirect
 from auth import Auth
 from typing import Union, Tuple
 
@@ -40,6 +40,17 @@ def login() -> Union[Response, Tuple[Response, int]]:
         response.set_cookie("session_id", session_id)  # type: ignore
         return response
     abort(401)
+
+
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout() -> Response:
+    """Deletes session and redirects to home route"""
+    session_id = request.cookies.get("session_id")
+    user = AUTH.get_user_from_session_id(session_id)  # type: ignore
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)  # type: ignore
+    return redirect("/")  # type: ignore
 
 
 if __name__ == "__main__":
