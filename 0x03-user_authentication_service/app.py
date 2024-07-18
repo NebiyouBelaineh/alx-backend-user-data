@@ -28,18 +28,18 @@ def users() -> Union[Response, Tuple[Response, int]]:
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
-def login() -> Union[Response, Tuple[Response, int]]:  # type: ignore
+def login() -> Union[Response, Tuple[Response, int]]:
     """Checks email and password and creates session ID and returns
     a JSON payload with the 'session_id' set as a cookie in the
     response object"""
     email, pwd = request.form.get("email"), request.form.get("password")
-    user_exists = AUTH.valid_login(email, pwd)  # type: ignore
-    if not user_exists:
-        abort(401)
-    session_id = AUTH.create_session(email)  # type: ignore
-    response = jsonify({"email": email, "message": "logged in"})
-    response.set_cookie("session_id", session_id)  # type: ignore
-    return response
+    user = AUTH.valid_login(email, pwd)  # type: ignore
+    if user:
+        session_id = AUTH.create_session(email)  # type: ignore
+        response = jsonify({"email": email, "message": "logged in"})
+        response.set_cookie("session_id", session_id)  # type: ignore
+        return response
+    abort(401)
 
 
 if __name__ == "__main__":
