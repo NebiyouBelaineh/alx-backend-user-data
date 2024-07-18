@@ -11,4 +11,5 @@ auth = Auth()
 auth.register_user(email, password)
 
 print(auth.create_session(email))
+print(auth.get_user_from_session_id(auth.create_session(email)))
 print(auth.create_session("unknown@email.com"))
